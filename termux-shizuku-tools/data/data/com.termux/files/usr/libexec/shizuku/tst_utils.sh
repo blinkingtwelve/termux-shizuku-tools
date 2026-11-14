@@ -1,5 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
+source $PREFIX/libexec/shizuku/shizuku_lib.sh
+
 G='\033[0;32m'
 R='\033[0;31m'
 Y='\033[0;33m'
@@ -26,12 +28,12 @@ SHK_STOP_MSG="Stopping Shizuku server$DOTS"
 SHK_I_SH_MSG="Starting Shizuku interactive shell$DOTS"
 SHK_I_SH_EXIT_TIP="Type 'exit' to exit"
 
-SHK_SERV_STAT_STR_RUN=" \033[1A\033[KServer:    ${TICK} Running"
-SHK_SERV_STAT_STR_STOP=" \033[1A\033[KServer:    ${CROSS} Stopped"
-SHK_SERV_STAT_STR_LOADING=" Server:    Loading info${DOTS}"
+SHK_SERV_STAT_STR_RUN="\033[1A\033[KServer:    ${TICK} Running"
+SHK_SERV_STAT_STR_STOP="\033[1A\033[KServer:    ${CROSS} Stopped"
+SHK_SERV_STAT_STR_LOADING="Server:    Loading info${DOTS}"
 
-SHK_INST_STAT_STR_YES=" ${NC}Installed: ${TICK} Yes"
-SHK_INST_STAT_STR_NO=" ${NC}Installed: ${CROSS} No"
+SHK_INST_STAT_STR_YES="${NC}Installed: ${TICK} Yes"
+SHK_INST_STAT_STR_NO="${NC}Installed: ${CROSS} No"
 
 export TST_PKG \
        TST_GH_REPO_LINK \
@@ -53,7 +55,7 @@ tst_version_code() {
 
 show_help() {
     cat << EOF
-$TST_PKG - Shizuku management utilities for Termux
+$TST_PKG - Shizuku utilities for Termux
 
 Usage: shizuku, shk <command>
 
@@ -63,6 +65,11 @@ Commands:
   stop, s              - Stop Shizuku server
   execute, exec, e     - Execute command via Shizuku
   shell, sh            - Start interactive Shizuku shell
+  config get           - Get config
+  config get key       - Get config key
+  config set key value - Set config key
+  config reset         - Reset config
+  config reset key     - Reset config key
   help, h              - Show this help
   version, v           - Show version
 
@@ -76,7 +83,7 @@ EOF
 show_version() {
     cat << EOF
 $TST_PKG v$(tst_version)
-Shizuku management utilities for Termux
+Shizuku utilities for Termux
 
 Author: AlexeiCrystal
 Source: $TST_GH_REPO_LINK
@@ -85,20 +92,16 @@ EOF
 }
 
 show_status() {
-    source "$PREFIX/libexec/shizuku/shizuku_lib.sh"
-    echo -e "${NC} Package:   ${Y}${SHK_PKG}${NC}"
-    echo -e "${NC} Website:   ${B}$SHK_WEB_URL${NC}"
+    echo -e "${NC}Package:   ${Y}$(get_shizuku_pkg)${NC}"
+    echo -e "${NC}Website:   ${B}$SHK_WEB_URL${NC}"
     
-    local installed=$(is_shk_installed)
-    
-    if [ "$installed" = "true" ]; then
+    if is_shizuku_installed; then
         echo -e "$SHK_INST_STAT_STR_YES"
         
-        local v_code=$(get_shk_version_code)
-        echo -e "${NC} Version:   ${Y}${v_code}${NC}"
+        echo -e "${NC}Version:   ${Y}$(get_shizuku_version_code)${NC}"
+        
         echo -e "$SHK_SERV_STAT_STR_LOADING"
-        local running=$(is_shk_server_running)
-        if [ "$running" = "true" ]; then
+        if is_shizuku_server_running; then
             echo -e "$SHK_SERV_STAT_STR_RUN"
         else
             echo -e "$SHK_SERV_STAT_STR_STOP"

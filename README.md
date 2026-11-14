@@ -8,7 +8,7 @@ English | [Русский](/README-ru.md)  </br></br>
 [![Build package on push](https://github.com/AlexeiCrystal/termux-shizuku-tools/actions/workflows/build-den-on-push.yml/badge.svg)](https://github.com/AlexeiCrystal/termux-shizuku-tools/actions/workflows/build-den-on-push.yml)
 
 # Description
-[Shizuku](https://github.com/RikkaApps/Shizuku) management utilities for [Termux](https://github.com/termux/termux-app)
+[Shizuku](https://github.com/RikkaApps/Shizuku) utilities for [Termux](https://github.com/termux/termux-app)
 
 # Requirements
 - [Shizuku](https://github.com/RikkaApps/Shizuku) installed and running  
@@ -23,15 +23,9 @@ English | [Русский](/README-ru.md)  </br></br>
   </a>
 </p>
 
-2. Go to the directory where the file was downloaded to  
-For example:  
+2. Install package:  
 ```
-cd /sdcard/Download
-```
-3. Install package  
-For example:  
-```
-dpkg -i termux-shizuku-tools_4.1.deb
+dpkg -i termux-shizuku-tools_5.0.deb
 ```
 
 ## Via Termux Hub
@@ -55,6 +49,11 @@ Commands:
   stop, s              - Stop Shizuku server
   execute, exec, e     - Execute command via Shizuku
   shell, sh            - Start interactive Shizuku shell
+  config get           - Get config
+  config get key       - Get config key
+  config set key value - Set config key
+  config reset         - Reset config
+  config reset key     - Reset config key
   help, h              - Show this help
   version, v           - Show version
 
@@ -70,24 +69,15 @@ Or clone via git:
 ```
 git clone https://github.com/AlexeiCrystal/termux-shizuku-tools.git
 ```
-2. Execute `build.sh` script at root of the repository  
-For example:  
+
+2. Build package:  
 ```
-bash /sdcard/Download/termux-shizuku-tools-main/build.sh
-```
-Or:  
-```
-bash /sdcard/Download/termux-shizuku-tools/build.sh
+make package
 ```
 
-3. Install package  
-For example:  
+3. Install package:  
 ```
-dpkg -i /sdcard/Download/termux-shizuku-tools-main/termux-shizuku-tools.deb
-```
-Or:  
-```
-dpkg -i /sdcard/Download/termux-shizuku-tools/termux-shizuku-tools.deb
+dpkg -i termux-shizuku-tools.deb
 ```
 
 # Star History
